@@ -35,7 +35,7 @@ router.get(
     }
 
     const allFreets = await FreetCollection.findAll();
-    const response = allFreets.map(util.constructFreetResponse);
+    const response = allFreets.map(util.constructFollowResponse);
     res.status(200).json(response);
   },
   [
@@ -43,7 +43,7 @@ router.get(
   ],
   async (req: Request, res: Response) => {
     const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
-    const response = authorFreets.map(util.constructFreetResponse);
+    const response = authorFreets.map(util.constructFollowResponse);
     res.status(200).json(response);
   }
 );
@@ -71,7 +71,7 @@ router.post(
 
     res.status(201).json({
       message: 'Your freet was created successfully.',
-      freet: util.constructFreetResponse(freet)
+      freet: util.constructFollowResponse(freet)
     });
   }
 );
