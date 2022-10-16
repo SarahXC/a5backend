@@ -1,6 +1,6 @@
 import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
-import FollowCollection from './collection';
+import FollowCollection from '../follow/collection';
 import UserCollection from '../user/collection';
 import * as userValidator from '../user/middleware';
 import * as followValidator from '../follow/middleware';
@@ -33,11 +33,11 @@ router.get(
 );
 
 /**
- * Get everyone a user is following
+ * Get all the user's follows
  *
  * @name GET /api/follows/following?userId=id
  *
- * @return {FollowResponse[]} - An array of users the user is following
+ * @return {FollowResponse[]} - An array of follows that the user is following
  * @throws {400} - If userId is not given
  * @throws {404} - If no user has given userId
  *
@@ -61,11 +61,11 @@ router.get(
 );
 
 /**
- * Get everyone following a user
+ * Gets all the follows that follow a user
  *
  * @name GET /api/follows/followers?userId=id
  *
- * @return {FollowResponse[]} - An array of users following a user
+ * @return {FollowResponse[]} - An array of follows that follow a user
  * @throws {400} - If userId is not given
  * @throws {404} - If no user has given userId
  *
