@@ -24,7 +24,7 @@ export type PopulatedFollow = {
 // Mongoose schema definition for interfacing with a MongoDB table
 // Users stored in this table will have these fields, with the
 // type given by the type property, inside MongoDB
-const FollowSchema = new Schema({
+const FollowSchema = new Schema<Follow>({
   // The user's username
   follower: {
     type: String,
