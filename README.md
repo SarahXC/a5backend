@@ -313,3 +313,132 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+
+##########################################################################################
+
+#### `GET /api/follows` - Get all the follows
+
+**Returns**
+
+- An array of all follows sorted in descending order by date followed
+
+#### `GET /api/followings` - Get everyone the current user is following 
+
+**Returns**
+
+- An array of everyone the current user is following
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `GET /api/follows` - Get all the follows
+
+**Returns**
+
+- An array of all follows sorted in descending order by date followed
+
+#### `GET /api/followers` - Get everyone who follows the current user
+
+**Returns**
+
+- An array of everyone the who follows the current user
+
+**Throws**
+
+- `403` if the user is not logged in
+
+
+#### `POST /api/follow` - Create a new follow
+
+**Body**
+
+- `user` _{username}_ - The user to be followed by the current logged in user
+
+**Returns**
+
+- A success message
+- A object with the created follow
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if `user` is not a recognized username of any user
+
+#### `DELETE /api/follow/:followId?` - Delete an existing follow
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if the user is not logged in
+- `403` if the user is not the follower of the follow
+- `404` if the followId is invalid
+
+##########################################################################################
+
+#### `GET /api/credibilityscore` - Get all the CredibilityScores
+
+**Returns**
+
+- An array of all scores sorted in descending order by date followed
+
+#### `GET /api/credibilityscore?user=USERNAME/` - Get the CredibilityScore of the user
+
+**Returns**
+
+- An the CredibilityScore of the user
+
+**Throws**
+
+- `404` if `user` is not a recognized username of any user
+
+##########################################################################################
+
+#### `GET /api/adjustfeed` - Gets the current adjustfeed breakdown
+
+**Returns**
+
+- An array of all the categories and what percent of the feed they are
+
+**Throws**
+
+- `403` if the user is not logged in
+
+#### `GET /api/follows` - Get all the follows
+
+**Returns**
+
+- An array of all follows sorted in descending order by date followed
+
+#### `GET /api/followers` - Get everyone who follows the current user
+
+**Returns**
+
+- An array of everyone the who follows the current user
+
+**Throws**
+
+- `403` if the user is not logged in
+
+
+#### `POST /api/adjustfeed` - Create a new adjustfeed breakdown
+
+**Body**
+
+- `percentBreakdown` _{percentBreakdown}_ - A list of percents that you want for each category
+
+**Returns**
+
+- A success message
+- A object with the created adjustFeed
+
+**Throws**
+
+- `403` if the user is not logged in
+- `405` if the breakdowns do not sum to 100%
+- `406` if there are an incorrect number of percents
+
