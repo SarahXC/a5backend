@@ -1,13 +1,11 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {Follow, PopulatedFollow} from '../follow/model';
+import type {Follow} from '../follow/model';
 
 // Update this if you add a property to the Freet type!
 type FollowResponse = {
-  _id: string;
   follower: string;
   followed: string;
-  dateFollowed: string;
 };
 
 /**
@@ -26,18 +24,14 @@ const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:
  * @returns {FollowResponse} - The follow object formatted for the frontend
  */
 const constructFollowResponse = (follow: HydratedDocument<Follow>): FollowResponse => {
-  const followCopy: PopulatedFollow = {
+  const followCopy: Follow = {
     ...follow.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  delete followCopy.follower;
   return {
-    ...followCopy,
-    _id: followCopy._id.toString(),
-    follower: followCopy.follower.toString(), //TODO
-    followed: followCopy.followed.toString(), //TODO
-    dateFollowed: formatDate(follow.dateFollowed),
+    follower: followCopy.follower.username, 
+    followed: followCopy.followed.username, 
   };
 };
 

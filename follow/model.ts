@@ -10,13 +10,6 @@ import type {User} from '../user/model';
 // Type definition for User on the backend
 export type Follow = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  follower: Types.ObjectId;
-  followed: Types.ObjectId;
-  dateFollowed: Date;
-};
-
-export type PopulatedFollow = {
-  _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   follower: User;
   followed: User;
   dateFollowed: Date;
@@ -29,7 +22,8 @@ const FollowSchema = new Schema<Follow>({
   // The user's username
   follower: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: true,
+    ref: 'User'
   },
   // The user's password
   followed: {
@@ -39,7 +33,8 @@ const FollowSchema = new Schema<Follow>({
   // The date the user joined
   dateFollowed: {
     type: Date,
-    required: true
+    required: true,
+    ref: 'User'
   }
 });
 
