@@ -354,10 +354,9 @@ This renders the `index.html` file that will be used to interact with the backen
 
 **Body**
 
-- `user` _{username}_ - The user to be followed by the current logged in user
+- `username` _{String}_ - The user to be followed by the current logged in user
 
 **Returns**
-
 - A success message
 - A object with the created follow
 
@@ -366,7 +365,11 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `404` if `user` is not a recognized username of any user
 
-#### `DELETE /api/follow/:followId?` - Delete an existing follow
+#### `DELETE /api/follow/:username?` - Unfollow a user
+
+**Body**
+
+- `username` _{String}_ - The user to be unfollowed by the current logged in user
 
 **Returns**
 
@@ -378,7 +381,7 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not the follower of the follow
 - `404` if the followId is invalid
 
-##########################################################################################
+####################################################################################
 
 #### `GET /api/credibilityscore` - Get all the CredibilityScores
 
@@ -396,7 +399,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `404` if `user` is not a recognized username of any user
 
-##########################################################################################
+###################################################################################
 
 #### `GET /api/adjustfeed` - Gets the current adjustfeed breakdown
 
