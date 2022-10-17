@@ -1,5 +1,6 @@
 import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
+import type {User} from '../user/model';
 
 /**
  * This file defines the properties stored in a User
@@ -9,15 +10,15 @@ import {Schema, model} from 'mongoose';
 // Type definition for User on the backend
 export type Follow = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  follower: string;
-  followed: string;
+  follower: Types.ObjectId;
+  followed: Types.ObjectId;
   dateFollowed: Date;
 };
 
 export type PopulatedFollow = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  follower: string;
-  followed: string;
+  follower: User;
+  followed: User;
   dateFollowed: Date;
 };
 
@@ -27,12 +28,12 @@ export type PopulatedFollow = {
 const FollowSchema = new Schema<Follow>({
   // The user's username
   follower: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true
   },
   // The user's password
   followed: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true
   },
   // The date the user joined

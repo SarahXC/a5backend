@@ -12,7 +12,7 @@ function followUser(fields) {
 }
 
 function unfollowUser(fields) {
-  fetch(`/api/unfollow?username=${fields.username}`)
+  fetch(`/api/follow?username=${fields.username}`)
     .then(showResponse)
     .catch(showResponse);
 }

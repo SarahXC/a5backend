@@ -1,7 +1,7 @@
 import type {Request, Response, NextFunction} from 'express';
 import {Types} from 'mongoose';
-import UserCollection from 'user/collection';
-import FollowCollection from '../follow/collection';
+import UserCollection from '../user/collection';
+import FollowCollection from './collection';
 
 /**
  * Checks if a follow with followId is req.params exists
