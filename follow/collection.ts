@@ -51,7 +51,7 @@ class FollowCollection {
    static async findOne(followerId: Types.ObjectId | string, followedId: Types.ObjectId | string): Promise<HydratedDocument<Follow>> {
     const follower = await UserCollection.findOneByUserId(followerId);
     const followed = await UserCollection.findOneByUserId(followedId);
-    return FollowModel.findOne({follower: follower, followed: followed}).populate('followId');
+    return FollowModel.findOne({follower: follower, followed: followed});
   }
 
   /**
@@ -61,7 +61,7 @@ class FollowCollection {
    */
    static async findAll(): Promise<Array<HydratedDocument<Follow>>> {
     // Retrieves freets and sorts them from most to least recent
-    return FollowModel.find({}).sort({dateFollowed: -1}).populate('authorId'); //TODO: what does the populate authorId mean
+    return FollowModel.find({}).sort({dateFollowed: -1}); //TODO: what does the populate authorId mean
   }
 
   /**

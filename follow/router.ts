@@ -58,8 +58,9 @@ router.post(
   '/', // the username of the user to follow
   [
     userValidator.isUserLoggedIn,
+    followValidator.isFollowSelf,
     followValidator.isFollowedUserExists,
-    // followValidator.isFollowNotExists,
+    followValidator.isFollowNotExists,
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
@@ -87,7 +88,7 @@ router.delete(
   [
     userValidator.isUserLoggedIn,
     followValidator.isFollowedUserExists,
-    // followValidator.isFollowExists, 
+    followValidator.isFollowExists, 
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';

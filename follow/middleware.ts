@@ -43,6 +43,23 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
 };
 
 /**
+ * Checks that they're not trying to follow themselves
+ */
+ const isFollowSelf = async (req: Request, res: Response, next: NextFunction) => {
+  const currentUser = await UserCollection.findOneByUserId(req.session.userId);
+  if (currentUser.username == req.body.username) {
+    res.status(405).json({
+      error: {
+        followNotFound: `You cannot follow yourself.`
+      }
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
  * Checks that the user they are trying to follow exists
  */
  const isFollowedUserExists = async (req: Request, res: Response, next: NextFunction) => {
@@ -63,4 +80,5 @@ export {
   isFollowExists,
   isFollowNotExists,
   isFollowedUserExists,
+  isFollowSelf
 };

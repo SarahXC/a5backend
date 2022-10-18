@@ -364,6 +364,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 - `404` if `user` is not a recognized username of any user
+- `405` if the user tries to follow themselves
 
 #### `DELETE /api/follow/:username?` - Unfollow a user
 
