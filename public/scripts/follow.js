@@ -14,18 +14,5 @@ function followUser(fields) {
 function unfollowUser(fields) {
   fetch('/api/follow', {method: 'DELETE', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
     .then(showResponse)
-    .catch(showResponse);
+    .catch(showResponse); 
 }
-
-// function followUser(fields) {
-//   fetch(`/api/follow?username=${fields.username}`, {method: 'POST'})
-//     .then(showResponse)
-//     .catch(showResponse);
-// }
-
-// function unfollowUser() {
-//   fetch(`/api/follow?username=${fields.username}`, {method: 'DELETE'})
-//     .then(showResponse)
-//     .catch(showResponse);
-// }
-
