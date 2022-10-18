@@ -2,7 +2,7 @@ import type {HydratedDocument, Types} from 'mongoose';
 import type {Follow} from './model';
 import FollowModel from './model';
 
-import type {User} from '../user/model'; //TODO: do I need this?
+import type {User} from '../user/model'; 
 import UserCollection from '../user/collection';
 
 /**
@@ -43,13 +43,15 @@ class FollowCollection {
   }
 
   /**
-   * Find a follow by followId
+   * Find a follow by followerId and followedId
    *
    * @param {string} followId - The id of the freet to find
    * @return {Promise<HydratedDocument<Freet>> | Promise<null> } - The freet with the given freetId, if any
    */
-   static async findOne(followId: Types.ObjectId | string): Promise<HydratedDocument<Follow>> {
-    return FollowModel.findOne({_id: followId}).populate('authorId');
+   static async findOne(followerId: Types.ObjectId | string, followedId: Types.ObjectId | string): Promise<HydratedDocument<Follow>> {
+    const follower = await UserCollection.findOneByUserId(followerId);
+    const followed = await UserCollection.findOneByUserId(followedId);
+    return FollowModel.findOne({follower: follower, followed: followed}).populate('followId');
   }
 
   /**

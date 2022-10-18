@@ -59,11 +59,11 @@ router.post(
   [
     userValidator.isUserLoggedIn,
     followValidator.isFollowedUserExists,
-    followValidator.isFollowExists,
+    // followValidator.isFollowNotExists,
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
-    const followed = await UserCollection.findOneByUsername(req.body.username);//get the Id of the username
+    const followed = await UserCollection.findOneByUsername(req.body.username); //get the Id of the username
     const follow = await FollowCollection.followOne(userId, followed._id); //TODO: _id or id
     res.status(201).json({
       message: 'You successfully followed the user.',
@@ -86,7 +86,8 @@ router.delete(
   '/', // the username of the user to unfollow 
   [
     userValidator.isUserLoggedIn,
-    followValidator.isFollowExists, //TODO: check this, how do I pass anything in?
+    followValidator.isFollowedUserExists,
+    // followValidator.isFollowExists, 
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
