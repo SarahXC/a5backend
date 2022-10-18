@@ -11,7 +11,7 @@ const isFollowExists = async (req: Request, res: Response, next: NextFunction) =
   if (!follow) {
     res.status(404).json({
       error: {
-        freetNotFound: `You are not following this user. You cannot unfollow.`
+        followNotFound: `You are not following this user. You cannot unfollow.`
       }
     });
     return;
@@ -29,7 +29,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   if (!follow) {
     res.status(404).json({
       error: {
-        freetNotFound: `You are not following this user. You cannot unfollow.`
+        followNotFound: `You are not following this user. You cannot unfollow.`
       }
     });
     return;
@@ -42,11 +42,11 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
  * Checks that the user they are trying to follow exists
  */
  const isFollowedUserExists = async (req: Request, res: Response, next: NextFunction) => {
-  const follow = await UserCollection.findOneByUserId(req.params.userId); //TODO: should this be by ID or username
+  const follow = await UserCollection.findOneByUsername(req.params.username as string); //TODO: should this be by ID or username
   if (!follow) {
     res.status(404).json({
       error: {
-        freetNotFound: `The user you are trying to follow does not exist.`
+        followNotFound: `The user you are trying to follow does not exist.`
       }
     });
     return;

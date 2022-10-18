@@ -11,7 +11,7 @@ const router = express.Router();
 /**
  * Get everyone following the user
  *
- * @name GET /api/follow
+ * @name GET /api/follows
  *
  * @return {FollowResponse[]} - A list of all the follow  sorted in descending
  *                      order by date created
@@ -63,7 +63,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
-    const followed = await UserCollection.findOneByUsername(req.body.user);//get the Id of the username
+    const followed = await UserCollection.findOneByUsername(req.body.username);//get the Id of the username
     const follow = await FollowCollection.followOne(userId, followed._id); //TODO: _id or id
     res.status(201).json({
       message: 'You successfully followed the user.',
@@ -90,7 +90,7 @@ router.delete(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
-    const followed = await UserCollection.findOneByUsername(req.body.user);//get the Id of the username
+    const followed = await UserCollection.findOneByUsername(req.body.username);//get the Id of the username
     const unfollow = await FollowCollection.unfollowOne(userId, followed._id); //TODO: _id or id
     res.status(201).json({
       message: 'You successfully unfollowed the user.'
