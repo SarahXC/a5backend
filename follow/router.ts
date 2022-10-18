@@ -11,9 +11,9 @@ const router = express.Router();
 /**
  * Get everyone following the user
  *
- * @name GET /api/follows
+ * @name GET /api/follow
  *
- * @return {FollowResponse[]} - A list of all the follows sorted in descending
+ * @return {FollowResponse[]} - A list of all the follow  sorted in descending
  *                      order by date created
  */
 
@@ -46,7 +46,7 @@ router.get(
 /**
  * Create a new follow.
  *
- * @name POST /api/follows
+ * @name POST /api/follow
  *
  * @param {string} followed - who the current user wants to follow
  * @return {FollowResponse} - The created follow
@@ -75,7 +75,7 @@ router.post(
 /**
  * Delete a follow
  *
- * @name DELETE /api/follows/:id
+ * @name DELETE /api/follos/:id
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in
