@@ -26,7 +26,10 @@ router.get(
     const userId = (req.session.userId as string) ?? '';
     const allFollows = await FollowCollection.findAllFollowersByID(userId);
     const response = allFollows.map(util.constructFollowResponse);
-    res.status(200).json(response);
+    res.status(200).json({
+      message: 'You are following:',
+      follower: response
+    });
   },
 );
 
@@ -39,7 +42,10 @@ router.get(
     const userId = (req.session.userId as string) ?? '';
     const allFollows = await FollowCollection.findAllFollowingsByID(userId);
     const response = allFollows.map(util.constructFollowResponse);
-    res.status(200).json(response);
+    res.status(200).json({
+      message: 'You are followed by:',
+      follower: response
+    });
   },
 );
 
@@ -52,7 +58,7 @@ router.get(
  * @return {FollowResponse} - The created follow
  * @throws {403} - If the user is not logged in //TODO 
  * @throws {400} - If the follow already exists
- * @throws {413} - If the followed user does not exist
+ * @throws {404} - If the followed user does not exist
  */
 router.post(
   '/', // the username of the user to follow
@@ -76,7 +82,7 @@ router.post(
 /**
  * Delete a follow
  *
- * @name DELETE /api/follos/:id
+ * @name DELETE /api/follows/:id
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in

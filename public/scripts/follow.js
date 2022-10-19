@@ -16,3 +16,15 @@ function unfollowUser(fields) {
     .then(showResponse)
     .catch(showResponse); 
 }
+
+function viewFollowers(fields) {
+  fetch('/api/follows/followers')
+    .then(showResponse)
+    .catch(showResponse); 
+}
+
+function viewFollowings(fields) {
+  fetch('/api/follows/followings')
+    .then(showResponse)
+    .catch(showResponse); 
+}
