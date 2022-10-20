@@ -39,7 +39,7 @@ class FollowCollection {
 
     const follow = new FollowModel({follower, followed, dateFollowed});
     await follow.save(); // Saves user to MongoDB
-    return follow;
+    return follow.populate(['follower','followed']);
   }
 
   /**
@@ -51,7 +51,7 @@ class FollowCollection {
    static async findOne(followerId: Types.ObjectId | string, followedId: Types.ObjectId | string): Promise<HydratedDocument<Follow>> {
     const follower = await UserCollection.findOneByUserId(followerId);
     const followed = await UserCollection.findOneByUserId(followedId);
-    return FollowModel.findOne({follower: follower, followed: followed});
+    return (await FollowModel.findOne({follower: follower, followed: followed}));
   }
 
   /**
@@ -61,7 +61,7 @@ class FollowCollection {
    */
    static async findAll(): Promise<Array<HydratedDocument<Follow>>> {
     // Retrieves freets and sorts them from most to least recent
-    return FollowModel.find({}).sort({dateFollowed: -1}); //TODO: what does the populate authorId mean
+    return FollowModel.find({}).sort({dateFollowed: -1}); 
   }
 
   /**
@@ -113,7 +113,7 @@ class FollowCollection {
    */
    static async findAllFollowersByID(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
     const user = await UserCollection.findOneByUserId(userId); //TODO
-    return FollowModel.find({followed: user}).populate('followers');
+    return FollowModel.find({followed: user}).populate('follower');
   }
   
   /**
@@ -124,7 +124,7 @@ class FollowCollection {
    */
    static async findAllFollowingsByID(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
     const user = await UserCollection.findOneByUserId(userId); //TODO
-    return FollowModel.find({follower: user}).populate('following');
+    return FollowModel.find({follower: user}).populate('followed');
   }
 
 }
