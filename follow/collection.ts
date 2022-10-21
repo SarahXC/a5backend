@@ -112,8 +112,9 @@ class FollowCollection {
    * @return {Promise<HydratedDocument<User>[]>} - An array of all of the users following them
    */
    static async findAllFollowersByID(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
-    const user = await UserCollection.findOneByUserId(userId); //TODO
-    return FollowModel.find({followed: user}).populate('follower');
+    const user = await UserCollection.findOneByUserId(userId); 
+    // return FollowModel.find().populate('follower'); //this returns follows
+    return FollowModel.find().populate('follower', 'followed'); //something about this makes it return nothing
   }
   
   /**
@@ -123,8 +124,9 @@ class FollowCollection {
    * @return {Promise<HydratedDocument<User>[]>} - An array of all of the users following them
    */
    static async findAllFollowingsByID(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
-    const user = await UserCollection.findOneByUserId(userId); //TODO
-    return FollowModel.find({follower: user}).populate('followed');
+    const user = await UserCollection.findOneByUserId(userId); 
+    // return FollowModel.find({follower: user}).populate('followed');
+    return FollowModel.find().populate('follower', 'followed');
   }
 
 }

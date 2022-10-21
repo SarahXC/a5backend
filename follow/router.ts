@@ -18,17 +18,17 @@ const router = express.Router();
  */
 
 router.get(
-  '/following',
+  '/followings',
   [
     userValidator.isUserLoggedIn
   ], 
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = (req.session.userId as string) ?? '';
-    const allFollows = await FollowCollection.findAllFollowersByID(userId);
+    const allFollows = await FollowCollection.findAllFollowingsByID(userId);
     const response = allFollows.map(util.constructFollowResponse);
     res.status(200).json({
       message: 'You are following:',
-      follower: response
+      followings: response
     });
   },
 );
@@ -40,11 +40,11 @@ router.get(
   ], 
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = (req.session.userId as string) ?? '';
-    const allFollows = await FollowCollection.findAllFollowingsByID(userId);
+    const allFollows = await FollowCollection.findAllFollowersByID(userId);
     const response = allFollows.map(util.constructFollowResponse);
     res.status(200).json({
       message: 'You are followed by:',
-      follower: response
+      followers: response
     });
   },
 );

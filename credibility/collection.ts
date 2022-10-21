@@ -22,7 +22,7 @@ class CredibilityCollection {
       canPost: false, 
     });
     await credibility.save(); 
-    return credibility.populate('userId');
+    return credibility.populate('user');
   }
 
 
@@ -42,7 +42,7 @@ class CredibilityCollection {
       credibility.canPost = false; 
     }
     await credibility.save();
-    return credibility.populate('userId');
+    return credibility.populate('user');
   }
 
   /**
@@ -62,7 +62,7 @@ class CredibilityCollection {
    * @param {string} userId - The id of the user to find
    * @return {Promise<HydratedDocument<Credibility>> | Promise<null> }
    */
-   static async deleteOneByUserId(userId: Types.ObjectId | string) {
+   static async deleteOneByUserId(userId: Types.ObjectId | string): Promise<boolean>  {
     const user = await UserCollection.findOneByUserId(userId);
     const credibility = await CredibilityModel.deleteOne({user: user});
     return credibility != null; 

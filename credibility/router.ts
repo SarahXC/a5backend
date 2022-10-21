@@ -23,7 +23,7 @@ router.get(
     const userId = (req.session.userId as string) ?? '';
     const credibility = await CredibilityCollection.findOneByUserId(userId);
     // const response = credibility.map(util.constructCredibilityResponse);
-    // res.status(200).json(response);
+    // res.status(200).json(response); //TODO 
   }
 );
 
