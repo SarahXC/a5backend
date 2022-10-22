@@ -15,27 +15,20 @@ export type Credibility = {
   canPost: boolean;
 };
 
-// Mongoose schema definition for interfacing with a MongoDB table
-// Freets stored in this table will have these fields, with the
-// type given by the type property, inside MongoDB
 const CredibilitySchema = new Schema<Credibility>({
-  // The author userId
   user: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User'
   },
-  // The date the freet was created
   score: {
-    type: Number,
+    type: Schema.Types.Number,
     required: true
   },
-  // The content of the freet
   canPost: {
-    type: Boolean,
+    type: Schema.Types.Boolean,
     required: true
   },
-  // The date the freet was modified
 });
 
 const CredibilityModel = model<Credibility>('Credibility', CredibilitySchema);

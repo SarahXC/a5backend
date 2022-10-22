@@ -22,7 +22,7 @@ class CredibilityCollection {
       canPost: false, 
     });
     await credibility.save(); 
-    return credibility.populate('user');
+    return credibility.populate('user'); 
   }
 
 
@@ -42,7 +42,7 @@ class CredibilityCollection {
       credibility.canPost = false; 
     }
     await credibility.save();
-    return credibility.populate('user');
+    return credibility.populate('user'); //populate would for things with Schema.Type and objects 
   }
 
   /**

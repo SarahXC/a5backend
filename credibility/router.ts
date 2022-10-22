@@ -7,7 +7,7 @@ import CredibilityCollection from './collection';
 const router = express.Router();
 
 /**
- * Get the user's Credibility Score 
+ * Get the current user's Credibility Score 
  *
  * @name GET /api/credibility
  *
@@ -22,9 +22,11 @@ router.get(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
     const credibility = await CredibilityCollection.findOneByUserId(userId);
-    // const response = credibility.map(util.constructCredibilityResponse);
-    // res.status(200).json(response); //TODO 
+    const response = util.constructCredibilityResponse(credibility);
+    res.status(200).json(response); //TODO 
   }
 );
+
+//TODO: want to also get the credibility of ANY user
 
 export {router as credibilityRouter};

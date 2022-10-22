@@ -24,6 +24,7 @@ const LikeSchema  = new Schema<Like>({
   post: {
     type: Schema.Types.ObjectId,
     required: true,
+    ref: 'Freet'
   },
   userPost: {
     type: Schema.Types.ObjectId,
@@ -37,7 +38,7 @@ const LikeSchema  = new Schema<Like>({
     ref: 'User'
   },
   dateLiked: {
-    type: Date,
+    type: Schema.Types.Date,
     required: true,
   }
 });

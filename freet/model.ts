@@ -39,17 +39,17 @@ const FreetSchema = new Schema<Freet>({
   },
   // The date the freet was created
   dateCreated: {
-    type: Date,
+    type: Schema.Types.Date,
     required: true
   },
   // The content of the freet
   content: {
-    type: String,
+    type: Schema.Types.String,
     required: true
   },
   // The date the freet was modified
   dateModified: {
-    type: Date,
+    type: Schema.Types.Date,
     required: true
   },
   // numLikes: {

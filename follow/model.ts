@@ -33,7 +33,7 @@ const FollowSchema = new Schema<Follow>({
   },
   // The date the user joined
   dateFollowed: {
-    type: Date,
+    type: Schema.Types.Date,
     required: true,
   }
 });
