@@ -10,26 +10,6 @@ import * as util from './util';
 const router = express.Router();
 
 /**
- * Get all the users who have liked the post
- *
- */
-
-router.get(
-  '/post',
-  [
-    likeValidator.isPostExist
-  ], 
-  async (req: Request, res: Response, next: NextFunction) => {
-    const allUsers = await LikeCollection.findAllByFreet(req.params.freedId);
-    const response = allUsers.map(util.constructLikeResponse);
-    res.status(200).json({
-      message: 'These users have liked the post:',
-      followings: response
-    });
-  },
-);
-
-/**
  * Create a new like
  */
 

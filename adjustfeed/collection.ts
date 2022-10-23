@@ -1,10 +1,8 @@
 import type {HydratedDocument, Types} from 'mongoose';
-import type {Credibility} from './model';
-import CredibilityModel from './model';
+import type {Adjustfeed} from './model';
+import AdjustfeedModel from './model';
 import UserCollection from '../user/collection';
 import e from 'express';
-import FollowCollection from '../follow/collection';
-import LikeCollection from '../like/collection';
 
 /**
  * addOneByUserId
@@ -13,7 +11,8 @@ import LikeCollection from '../like/collection';
  * deleteOneByUserId
  */
 
-class CredibilityCollection {
+
+ class AdjustfeedCollection {
 
   /**
    * Add a Credibility to the collection
@@ -25,7 +24,7 @@ class CredibilityCollection {
    */
   static async addOneByUserId(userId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Credibility>> {
     const user = await UserCollection.findOneByUserId(userId);
-    const credibility = new CredibilityModel({
+    const credibility = new AdjustfeedModel({
       user: user,
       score: 0,
       canPost: false, 
@@ -82,4 +81,4 @@ class CredibilityCollection {
 
 }
 
-export default CredibilityCollection;
+export default AdjustfeedCollection;

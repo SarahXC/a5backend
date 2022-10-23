@@ -1,6 +1,6 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {Like} from '../like/model';
+import type {Like} from './model';
 
 // Update this if you add a property to the Freet type!
 type LikeResponse = {

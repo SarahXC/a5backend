@@ -14,8 +14,9 @@ import FreetModel from 'freet/model';
   * addOne
   * deleteOne: by likeId
   * deleteMany: unlikes all of the likes by a user
-  * findAllByFreet: gets all of the likes who have liked the freet
+  * findAllByFreet: gets all of the likes for a freet
   * findAllByUser: gets all the likes that the user has liked
+  * findAllLikesRecieved: gets all the likes that the user has recieved
   * 
 */
 
@@ -59,7 +60,7 @@ class LikeCollection {
 
     const like = new LikeModel({freetObject, userPost, userLike, dateLiked});
     await like.save(); // Saves user to MongoDB
-    return like.populate(['freetObject','userObject']); //TODO: help understanding this
+    return like.populate(['post, userPost,userLike']); //TODO: help understanding this
   }
 
   /**
@@ -71,20 +72,6 @@ class LikeCollection {
 
   static async deleteOne(likeId: Types.ObjectId | string): Promise<boolean> {
     const like = await LikeModel.deleteOne({_id: likeId});
-    return like !== null;
-  }
-
-  /**
-   * Unlike a user's post
-   *
-   * @param {string} likeId - The id of like to delete
-   * @return {Promise<Boolean>} - true if the freet has been deleted, false otherwise
-   */
-
-   static async deleteByPostId(userId: Types.ObjectId | string, postId: Types.ObjectId | string): Promise<boolean> {
-    const post = await FreetModel.findOne({_id: postId});
-    const userLike = await UserModel.findById(userId);
-    const like = await LikeModel.deleteOne({post: post, userLike: userLike});
     return like !== null;
   }
 
@@ -109,7 +96,7 @@ class LikeCollection {
    */
    static async findAllByFreet(freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<Like>>> {
     const post = await FreetCollection.findOne(freetId);
-    return LikeModel.find({post: post}).populate('post'); //TODO: is this the right populate
+    return LikeModel.find({post: post}).populate(['post, userPost,userLike']); //TODO: is this the right populate
   }
 
   /**
@@ -120,7 +107,19 @@ class LikeCollection {
    */
    static async findAllByUser(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Like>>> {
     const user = await UserCollection.findOneByUserId(userId);
-    return LikeModel.find({userLike: user}).populate('userLike'); //TODO: is this the right populate
+    return LikeModel.find({userLike: user}).populate(['post, userPost,userLike']); 
+  }
+
+  /**
+   * Get all the likes that the user has recieved
+   *
+   * @param {string} userId
+   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   */
+   static async findAllLikesRecieved(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Like>>> {
+    const user = await UserCollection.findOneByUserId(userId);
+    const freets = await FreetCollection.findAllByUsername(user.username);
+    return LikeModel.find({userPost: freets}).populate(['post, userPost,userLike']); //TODO: check if this is right
   }
 
 }

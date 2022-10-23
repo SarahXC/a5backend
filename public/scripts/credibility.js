@@ -6,7 +6,7 @@
  */
 
 function viewCredibility(fields) {
-  fetch(`/api/credibility?user=${fields.user}`)
+  fetch(`/api/credibilities?username=${fields.username}`)
     .then(showResponse)
     .catch(showResponse);
   }

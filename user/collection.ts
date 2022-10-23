@@ -2,6 +2,11 @@ import type {HydratedDocument, Types} from 'mongoose';
 import type {User} from './model';
 import UserModel from './model';
 
+import CredibilityModel from '../credibility/model';
+import CredibilityCollection from '../credibility/collection';
+import LikeCollection from '../like/collection';
+import FreetCollection from '../freet/collection';
+
 /**
  * This file contains a class with functionality to interact with users stored
  * in MongoDB, including adding, finding, updating, and deleting. Feel free to add
@@ -22,6 +27,9 @@ class UserCollection {
     const dateJoined = new Date();
 
     const user = new UserModel({username, password, dateJoined});
+    //synchronization: also add a credibility score
+    // const credibility = await CredibilityCollection.addOneByUserId(user._id); //TODO: bring back
+    // const adjustFeed = await AdjustFeedCollection.addOneByUserId(user._id); 
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -88,6 +96,11 @@ class UserCollection {
    * @return {Promise<Boolean>} - true if the user has been deleted, false otherwise
    */
   static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
+    //synchronizations TODO: bring back
+    // const credibility = await CredibilityCollection.deleteOneByUserId(userId); //TODO: bring back
+    // const adjustFeed = await AdjustFeedCollection.deleteOneByUserId(userId); 
+    // const likes = await LikeCollection.deleteMany(userId);
+    // const freets = await FreetCollection.deleteMany(userId);
     const user = await UserModel.deleteOne({_id: userId});
     return user !== null;
   }

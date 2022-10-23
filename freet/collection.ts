@@ -1,6 +1,9 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Freet} from './model';
 import FreetModel from './model';
+import LikeModel from '../like/model';
+
+import LikeCollection from '../like/collection';
 import UserCollection from '../user/collection';
 
 /**
@@ -85,6 +88,8 @@ class FreetCollection {
    * @return {Promise<Boolean>} - true if the freet has been deleted, false otherwise
    */
   static async deleteOne(freetId: Types.ObjectId | string): Promise<boolean> {
+    //sychronization: also delete all the freet's likes
+    // const likes = await LikeModel.deleteMany({freetId});
     const freet = await FreetModel.deleteOne({_id: freetId});
     return freet !== null;
   }
@@ -95,6 +100,7 @@ class FreetCollection {
    * @param {string} authorId - The id of author of freets
    */
   static async deleteMany(authorId: Types.ObjectId | string): Promise<void> {
+    //TODO: synchronization delete likes as well
     await FreetModel.deleteMany({authorId});
   }
 }
