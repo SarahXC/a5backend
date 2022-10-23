@@ -15,14 +15,13 @@ import e from 'express';
  class AdjustfeedCollection {
 
   /**
-   * Add a Credibility to the collection
+   * Add an Adjustfeed to the collection
    *
    * @param {string} userId - The id of user
-   * @param {number} score - their credibility score
-   * @param {boolean} canPost - whether they have enough fritters to post 
-   * @return {Promise<HydratedDocument<Credibility>>} - The newly created credibility 
+   * @param {number} numCategories - numberOfCurrentCategories
+   * @return {Promise<HydratedDocument<Adjustfeed>>} - The newly created credibility 
    */
-  static async addOneByUserId(userId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Credibility>> {
+  static async addOneByUserId(userId: Types.ObjectId | string, content: string, numCategories: number): Promise<HydratedDocument<Adjustfeed>> {
     const user = await UserCollection.findOneByUserId(userId);
     const credibility = new AdjustfeedModel({
       user: user,

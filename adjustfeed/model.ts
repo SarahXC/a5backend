@@ -8,25 +8,20 @@ import type {User} from '../user/model';
  */
 
 // Type definition for Freet on the backend
-export type Credibility = {
-  _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
+export type Adjustfeed = {
+  _id: Types.ObjectId; 
   user: User;
-  score: number;
-  canPost: boolean;
+  percents: Array<number>; //TODO: check if this is allowed
 };
 
-const CredibilitySchema = new Schema<Credibility>({
+const Adjustfeed = new Schema<Adjustfeed>({
   user: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User'
   },
-  score: {
-    type: Schema.Types.Number,
-    required: true
-  },
-  canPost: {
-    type: Schema.Types.Boolean,
+  percents: {
+    type: Schema.Types.Array<Number>,
     required: true
   },
 });

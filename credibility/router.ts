@@ -22,11 +22,11 @@ router.get(
     //TODO: make sure user exists 
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    // if (req.query.username !== undefined) {
-    //   next();
-    //   return;
-    // }
-    const user = await UserCollection.findOneByUsername(req.body.username as string);
+    if (req.query.username !== undefined) {
+      next();
+      return;
+    }
+    const user = await UserCollection.findOneByUsername(req.query.username as string);
     const credibility = await CredibilityCollection.findOneByUserId(user._id);
     const response = util.constructCredibilityResponse(credibility); //don't need map because only returning one thing
     res.status(200).json(response); //TODO 

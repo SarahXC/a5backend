@@ -23,7 +23,7 @@ class CredibilityCollection {
    * @param {boolean} canPost - whether they have enough fritters to post 
    * @return {Promise<HydratedDocument<Credibility>>} - The newly created credibility 
    */
-  static async addOneByUserId(userId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Credibility>> {
+  static async addOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<Credibility>> {
     const user = await UserCollection.findOneByUserId(userId);
     const credibility = new CredibilityModel({
       user: user,

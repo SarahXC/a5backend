@@ -1,8 +1,8 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {User} from './model';
 import UserModel from './model';
-
 import CredibilityModel from '../credibility/model';
+
 import CredibilityCollection from '../credibility/collection';
 import LikeCollection from '../like/collection';
 import FreetCollection from '../freet/collection';
@@ -27,10 +27,10 @@ class UserCollection {
     const dateJoined = new Date();
 
     const user = new UserModel({username, password, dateJoined});
-    //synchronization: also add a credibility score
-    // const credibility = await CredibilityCollection.addOneByUserId(user._id); //TODO: bring back
-    // const adjustFeed = await AdjustFeedCollection.addOneByUserId(user._id); 
     await user.save(); // Saves user to MongoDB
+    //synchronization: also add a credibility score
+    const credibility = await CredibilityCollection.addOneByUserId(user._id); //TODO: bring back
+    // const adjustFeed = await AdjustFeedCollection.addOneByUserId(user._id); 
     return user;
   }
 
@@ -97,7 +97,7 @@ class UserCollection {
    */
   static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
     //synchronizations TODO: bring back
-    // const credibility = await CredibilityCollection.deleteOneByUserId(userId); //TODO: bring back
+    const credibility = await CredibilityCollection.deleteOneByUserId(userId); //TODO: bring back
     // const adjustFeed = await AdjustFeedCollection.deleteOneByUserId(userId); 
     // const likes = await LikeCollection.deleteMany(userId);
     // const freets = await FreetCollection.deleteMany(userId);
