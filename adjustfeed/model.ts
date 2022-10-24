@@ -11,20 +11,40 @@ import type {User} from '../user/model';
 export type Adjustfeed = {
   _id: Types.ObjectId; 
   user: User;
-  percents: Array<number>; //TODO: check if this is allowed
+  liberalPolitics: number;
+  conservativePolitics: number;
+  entertainment: number;
+  sports: number;
+  news: number;
 };
 
-const Adjustfeed = new Schema<Adjustfeed>({
+const AdjustfeedSchema = new Schema<Adjustfeed>({
   user: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User'
   },
-  percents: {
-    type: Schema.Types.Array<Number>,
+  liberalPolitics: {
+    type: Schema.Types.Number,
+    required: true
+  },
+  conservativePolitics: {
+    type: Schema.Types.Number,
+    required: true
+  },
+  entertainment: {
+    type: Schema.Types.Number,
+    required: true
+  },
+  sports: {
+    type: Schema.Types.Number,
+    required: true
+  },
+  news: {
+    type: Schema.Types.Number,
     required: true
   },
 });
 
-const CredibilityModel = model<Credibility>('Credibility', CredibilitySchema);
-export default CredibilityModel;
+const AdjustfeedModel = model<Adjustfeed>('Adjustfeed', AdjustfeedSchema);
+export default AdjustfeedModel;

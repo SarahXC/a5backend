@@ -1,32 +1,38 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {Credibility} from '../credibility/model';
+import type {Adjustfeed} from '../adjustfeed/model';
 
 // Update this if you add a property to the Freet type!
-type CredibilityResponse = {
+type AdjustfeedResponse = {
   user: string;
-  score: number;
-  canPost: string;
+  liberal: number;
+  conservative: number;
+  entertainment: number;
+  sports: number;
+  news: number;
 };
 
 /**
- * @param {HydratedDocument<Credibility>} credibility - A Credibility
- * @returns {CredibilityResponse} - The Credibility object formatted for the frontend
+ * @param {HydratedDocument<Adjustfeed>} Adjustfeed - A Adjustfeed
+ * @returns {AdjustfeedResponse} - The Adjustfeed object formatted for the frontend
  */
-const constructCredibilityResponse = (credibility: HydratedDocument<Credibility>): CredibilityResponse => {
-  const credibilityCopy: Credibility = {
-    ...credibility.toObject({
+const constructAdjustfeedResponse = (adjustfeed: HydratedDocument<Adjustfeed>): AdjustfeedResponse => {
+  const adjustfeedCopy: Adjustfeed = {
+    ...adjustfeed.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  console.log(credibilityCopy);
+  console.log(adjustfeedCopy);
   return {
-    user: credibilityCopy.user.username, 
-    score: credibilityCopy.score,
-    canPost: credibilityCopy.canPost.toString()
+    user: adjustfeedCopy.user.username,
+    liberal: adjustfeedCopy.liberalPolitics,
+    conservative: adjustfeedCopy.conservativePolitics,
+    entertainment: adjustfeedCopy.entertainment,
+    sports: adjustfeedCopy.sports,
+    news: adjustfeedCopy.news,
   };
 };
 
 export {
-  constructCredibilityResponse
+  constructAdjustfeedResponse
 };

@@ -65,7 +65,7 @@ class LikeCollection {
     const userLike = await UserCollection.findOneByUserId(userId);
     console.log('addOne4');
     console.log(userLike.username as string);
-    const like = new LikeModel({freetObject, userPost, userLike, dateLiked});
+    const like = new LikeModel({post: freetObject, userPost: userPost, userLike: userLike, dateLiked: dateLiked});
     console.log('addOne5');
     await like.save(); // Saves user to MongoDB
     console.log('addOne6');

@@ -21,12 +21,11 @@ import e from 'express';
    * @param {number} numCategories - numberOfCurrentCategories
    * @return {Promise<HydratedDocument<Adjustfeed>>} - The newly created credibility 
    */
-  static async addOneByUserId(userId: Types.ObjectId | string, content: string, numCategories: number): Promise<HydratedDocument<Adjustfeed>> {
+  static async addOneByUserId(userId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Adjustfeed>> {
     const user = await UserCollection.findOneByUserId(userId);
     const credibility = new AdjustfeedModel({
       user: user,
-      score: 0,
-      canPost: false, 
+      percents: [20,20,20,20,20], //initialize to equal weights 
     });
     await credibility.save(); 
     return credibility.populate('user'); 
@@ -34,22 +33,21 @@ import e from 'express';
 
 
   /**
-   * Update a Credibility by userId
+   * Update a feed by userId
    *
    * @param {string} userId - The id of the user to find
-   * @return {Promise<HydratedDocument<Credibility>> | Promise<null> } - The Credibility with the given userId, if any
+   * @return {Promise<HydratedDocument<Adjustfeed>> | Promise<null> } - The Adjustfeed with the given userId, if any
    */
-  static async updateOneByUserId(userId: Types.ObjectId): Promise<HydratedDocument<Credibility>> {
-    const credibility = await CredibilityCollection.findOneByUserId(userId);
-    const likes = await LikeCollection.findAllLikesRecieved(userId);
-    const numLikes = likes.length;
-    const followers = await FollowCollection.findAllFollowersByID(userId);
-    const numFollowers = followers.length; //TODO: check
+  static async updateOneByUserId(userId: Types.ObjectId, percents: Array<number>): Promise<HydratedDocument<Adjustfeed>> {
+    const adjustfeed = await AdjustfeedCollection.findOneByUserId(userId);
+    adjustfeed.liberalPolitics = percents[0];
+    adjustfeed.conservativePolitics = percents[1];
+    adjustfeed.entertainment = percents[2];
+    adjustfeed.sports = percents[3];
+    adjustfeed.news = percents[4];
 
-    credibility.score =  numLikes + 2* numFollowers; //TODO: can add comments
-    credibility.canPost = credibility.score > 10 ? true : false;
-    await credibility.save();
-    return credibility.populate('user'); //populate for things with Schema.Type and objects 
+    await adjustfeed.save();
+    return adjustfeed.populate('user'); 
   }
 
   /**
@@ -58,12 +56,9 @@ import e from 'express';
    * @param {string} userId - The id of the user to find
    * @return {Promise<HydratedDocument<Credibility>> | Promise<null> }
    */
-   static async findOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<Credibility>> {
-    // const user = await UserCollection.findOneByUserId(userId);
-    // return CredibilityModel.findOne({user: user}).populate('user');
-    //make sure it's updated
-    const credibility = await CredibilityCollection.updateOneByUserId(userId as Types.ObjectId); //TODO: check can I do this
-    return credibility.populate('user');
+   static async findOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<Adjustfeed>> {
+    const user = await UserCollection.findOneByUserId(userId);
+    return AdjustfeedModel.findOne({user: user}).populate('user');
   }
 
   /**
@@ -74,8 +69,8 @@ import e from 'express';
    */
    static async deleteOneByUserId(userId: Types.ObjectId | string): Promise<boolean>  {
     const user = await UserCollection.findOneByUserId(userId);
-    const credibility = await CredibilityModel.deleteOne({user: user});
-    return credibility != null; 
+    const adjustfeed = await AdjustfeedModel.deleteOne({user: user});
+    return adjustfeed != null; 
   }
 
 }
