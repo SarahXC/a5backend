@@ -41,12 +41,11 @@ class CredibilityCollection {
    * @param {string} userId - The id of the user to find
    * @return {Promise<HydratedDocument<Credibility>> | Promise<null> } - The Credibility with the given userId, if any
    */
-  static async updateOneByUserId(userId: Types.ObjectId): Promise<HydratedDocument<Credibility>> {
-    const credibility = await CredibilityCollection.findOneByUserId(userId);
-    const likes = await LikeCollection.findAllLikesRecieved(userId);
-    const numLikes = likes.length;
-    const followers = await FollowCollection.findAllFollowersByID(userId);
-    const numFollowers = followers.length; //TODO: check
+  static async updateOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<Credibility>> {
+    const user = await UserCollection.findOneByUserId(userId);
+    const credibility = await CredibilityModel.findOne({user: user});
+    const numLikes = (await LikeCollection.findAllLikesRecieved(userId)).length;
+    const numFollowers = (await FollowCollection.findAllFollowersByID(userId)).length;
 
     credibility.score =  numLikes + 2* numFollowers; //TODO: can add comments
     credibility.canPost = credibility.score > 10 ? true : false;
@@ -61,10 +60,7 @@ class CredibilityCollection {
    * @return {Promise<HydratedDocument<Credibility>> | Promise<null> }
    */
    static async findOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<Credibility>> {
-    // const user = await UserCollection.findOneByUserId(userId);
-    // return CredibilityModel.findOne({user: user}).populate('user');
-    //make sure it's updated
-    const credibility = await CredibilityCollection.updateOneByUserId(userId as Types.ObjectId); //TODO: check can I do this
+    const credibility = await CredibilityCollection.updateOneByUserId(userId); //update first
     return credibility.populate('user');
   }
 

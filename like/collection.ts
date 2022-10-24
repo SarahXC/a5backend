@@ -54,12 +54,21 @@ class LikeCollection {
   
   static async addOne(freetId: Types.ObjectId | string, userId: Types.ObjectId | string): Promise<HydratedDocument<Like>> {
     const dateLiked = new Date();
+    console.log('addOne');
+    // const freetObject = await FreetModel.findOne({_id: freetId});
     const freetObject = await FreetCollection.findOne(freetId);
+    console.log('addOne2');
+    console.log(freetObject.content);
     const userPost = await UserCollection.findOneByUserId(freetObject.authorId);
+    console.log('addOne3');
+    console.log(userPost.username as string);
     const userLike = await UserCollection.findOneByUserId(userId);
-
+    console.log('addOne4');
+    console.log(userLike.username as string);
     const like = new LikeModel({freetObject, userPost, userLike, dateLiked});
+    console.log('addOne5');
     await like.save(); // Saves user to MongoDB
+    console.log('addOne6');
     return like.populate(['post, userPost,userLike']); //TODO: help understanding this
   }
 

@@ -8,11 +8,12 @@ import LikeCollection from './collection';
  * Checks that the post you're trying to like exists, by postId
  */
  const isPostExist = async (req: Request, res: Response, next: NextFunction) => {
-  const post = await FreetCollection.findOne(req.body.postId);
-  if (!post) {
+  console.log('isPostExist');
+  const freet = await FreetCollection.findOne(req.body.postId);
+  if (!freet) {
     res.status(404).json({
       error: {
-        followNotFound: `You cannot like this post. This post does not exist.`
+        freetNotFound: `Post with post ID ${req.body.postId} does not exist.`
       }
     });
     return;
@@ -36,12 +37,11 @@ import LikeCollection from './collection';
     });
     return;
   }
-
   next();
 };
 
 /**
- * Checks that you haven't already liked the post
+ * Checks that you already liked the post
  */
  const isLikeExists = async (req: Request, res: Response, next: NextFunction) => {
   const currentUser = await UserCollection.findOneByUserId(req.session.userId);
@@ -50,7 +50,7 @@ import LikeCollection from './collection';
   if (!like) {
     res.status(404).json({
       error: {
-        followNotFound: `You already liked this post. You cannot like it again.`
+        followNotFound: `You can't unlike this post. You never liked it.`
       }
     });
     return;
@@ -63,18 +63,22 @@ import LikeCollection from './collection';
  * Checks that you haven't already liked the post
  */
  const isLikeNotExists = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('isLikeNotExists');
   const currentUser = await UserCollection.findOneByUserId(req.session.userId);
+  console.log('isLikeNotExists2');
   const post = await FreetCollection.findOne(req.body.postId);
+  console.log('isLikeNotExists3');
   const like = await LikeCollection.findOneByPostAndUserId(post._id, currentUser._id); 
+  console.log('isLikeNotExists4');
   if (like) {
     res.status(404).json({
       error: {
-        followNotFound: `You can't unlike this post. You never liked it.`
+        followNotFound: `You already liked this post. You cannot like it again.`
       }
     });
     return;
   }
-
+  console.log('isLikeNotExists5');
   next();
 };
 
