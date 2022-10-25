@@ -87,7 +87,7 @@ app.use('/api/likes', likeRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {
-  res.status(400).render('error');
+  res.status(400).json({error: 'Bad route'});
 });
 
 // Create server to listen to request at specified port

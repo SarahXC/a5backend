@@ -16,10 +16,10 @@ const router = express.Router();
  router.post(
   '/',
   [
-    // userValidator.isUserLoggedIn,
-    // likeValidator.isPostExist,
-    // likeValidator.isPostNotSelf,
-    // likeValidator.isLikeNotExists,
+    userValidator.isUserLoggedIn,
+    likeValidator.isPostExist,
+    likeValidator.isPostNotSelf,
+    likeValidator.isLikeNotExists,
   ],
   async (req: Request, res: Response) => {
     console.log('here3');
@@ -43,11 +43,13 @@ const router = express.Router();
     userValidator.isUserLoggedIn,
     likeValidator.isPostExist,
     likeValidator.isPostNotSelf,
-    likeValidator.isLikeNotExists,
+  //   likeValidator.isLikeNotExists,
   ],
   async (req: Request, res: Response) => {
+    console.log('delete');
     const userId = (req.session.userId as string) ?? ''; 
-    const like = await LikeCollection.findOneByPostAndUserId(req.body.freetId, userId);
+    console.log(req.body.postId as string);
+    const like = await LikeCollection.findOneByPostAndUserId(req.body.postId, userId);
     const unlike = await LikeCollection.deleteOne(like._id); 
     res.status(201).json({
       message: 'You successfully unliked the post.',

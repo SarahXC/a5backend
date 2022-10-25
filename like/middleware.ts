@@ -44,9 +44,13 @@ import LikeCollection from './collection';
  * Checks that you already liked the post
  */
  const isLikeExists = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('isLikeNotExists1');
   const currentUser = await UserCollection.findOneByUserId(req.session.userId);
+  console.log('isLikeNotExists2');
   const post = await FreetCollection.findOne(req.body.postId);
+  console.log('isLikeNotExists3');
   const like = await LikeCollection.findOneByPostAndUserId(post._id, currentUser._id); 
+  console.log('isLikeNotExists4');
   if (!like) {
     res.status(404).json({
       error: {
@@ -55,7 +59,7 @@ import LikeCollection from './collection';
     });
     return;
   }
-
+  console.log('isLikeNotExists5');
   next();
 };
 
@@ -63,13 +67,9 @@ import LikeCollection from './collection';
  * Checks that you haven't already liked the post
  */
  const isLikeNotExists = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('isLikeNotExists');
   const currentUser = await UserCollection.findOneByUserId(req.session.userId);
-  console.log('isLikeNotExists2');
   const post = await FreetCollection.findOne(req.body.postId);
-  console.log('isLikeNotExists3');
   const like = await LikeCollection.findOneByPostAndUserId(post._id, currentUser._id); 
-  console.log('isLikeNotExists4');
   if (like) {
     res.status(404).json({
       error: {
@@ -78,7 +78,6 @@ import LikeCollection from './collection';
     });
     return;
   }
-  console.log('isLikeNotExists5');
   next();
 };
 
