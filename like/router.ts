@@ -43,10 +43,9 @@ const router = express.Router();
     userValidator.isUserLoggedIn,
     likeValidator.isPostExist,
     likeValidator.isPostNotSelf,
-  //   likeValidator.isLikeNotExists,
+    likeValidator.isLikeExists,
   ],
   async (req: Request, res: Response) => {
-    console.log('delete');
     const userId = (req.session.userId as string) ?? ''; 
     console.log(req.body.postId as string);
     const like = await LikeCollection.findOneByPostAndUserId(req.body.postId, userId);
