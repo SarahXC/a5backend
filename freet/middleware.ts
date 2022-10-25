@@ -1,6 +1,26 @@
 import type {Request, Response, NextFunction} from 'express';
 import {Types} from 'mongoose';
 import FreetCollection from '../freet/collection';
+import UserCollection from '../user/collection';
+import CredibilityCollection from '../credibility/collection';
+
+/**
+ * Checks that the user has enough credibility to post
+ */
+ const isEnoughCredibility = async (req: Request, res: Response, next: NextFunction) => {
+  const currentUser = await UserCollection.findOneByUserId(req.session.userId);
+  const credibility = await CredibilityCollection.findOneByUserId(req.session.userId);
+  if (!credibility.canPost) { //if not enough credibility
+    res.status(404).json({
+      error: {
+        freetNotFound: `You do not have enough credibility points to post.`
+      }
+    });
+    return;
+  }
+
+  next();
+};
 
 /**
  * Checks if a freet with freetId is req.params exists
@@ -60,6 +80,7 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
 };
 
 export {
+  isEnoughCredibility,
   isValidFreetContent,
   isFreetExists,
   isValidFreetModifier

@@ -207,6 +207,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 - `400` If the freet content is empty or a stream of empty spaces
+- `405` If the user does not have enough credibility to post
 - `413` If the freet content is more than 140 characters long
 
 #### `DELETE /api/freets/:freetId?` - Delete an existing freet
@@ -317,12 +318,6 @@ This renders the `index.html` file that will be used to interact with the backen
 
 ##########################################################################################
 
-#### `GET /api/follows` - Get all the follows
-
-**Returns**
-
-- An array of all follows sorted in descending order by date followed
-
 #### `GET /api/followings` - Get everyone the current user is following 
 
 **Returns**
@@ -332,12 +327,6 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-
-#### `GET /api/follows` - Get all the follows
-
-**Returns**
-
-- An array of all follows sorted in descending order by date followed
 
 #### `GET /api/followers` - Get everyone who follows the current user
 
@@ -363,10 +352,11 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `404` if `user` is not a recognized username of any user
+- `402` if the logged in user is already following the user
+- `404` if `username` is not a recognized username of any user
 - `405` if the user tries to follow themselves
 
-#### `DELETE /api/follow/:username?` - Unfollow a user
+#### `DELETE /api/follow` - Unfollow a user
 
 **Body**
 
@@ -379,70 +369,53 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
-- `403` if the user is not the follower of the follow
+- `402` if the logged in user is not already following the user
 - `404` if the followId is invalid
 
 ####################################################################################
 
-#### `GET /api/credibilityscore` - Get all the CredibilityScores
-
-**Returns**
-
-- An array of all scores sorted in descending order by date followed
-
 #### `GET /api/credibilityscore?user=USERNAME/` - Get the CredibilityScore of the user
-
-**Returns**
-
-- An the CredibilityScore of the user
-
-**Throws**
-
-- `404` if `user` is not a recognized username of any user
-
-###################################################################################
-
-#### `GET /api/adjustfeed` - Gets the current adjustfeed breakdown
-
-**Returns**
-
-- An array of all the categories and what percent of the feed they are
-
-**Throws**
-
-- `403` if the user is not logged in
-
-#### `GET /api/follows` - Get all the follows
-
-**Returns**
-
-- An array of all follows sorted in descending order by date followed
-
-#### `GET /api/followers` - Get everyone who follows the current user
-
-**Returns**
-
-- An array of everyone the who follows the current user
-
-**Throws**
-
-- `403` if the user is not logged in
-
-
-#### `POST /api/adjustfeed` - Create a new adjustfeed breakdown
 
 **Body**
 
-- `percentBreakdown` _{percentBreakdown}_ - A list of percents that you want for each category
+- `username` _{String}_ - The user who's score is to be returned
 
 **Returns**
 
-- A success message
-- A object with the created adjustFeed
+- A CredibilityScore of the user
+
+**Throws**
+
+- `404` if `username` is not a recognized username of any user
+- `405` if the `username` does not have a credibilityscore
+
+###################################################################################
+
+#### `GET /api/adjustfeeds` - Gets the current adjustfeed breakdown
+
+**Returns**
+
+- An object with the user's feed settings
 
 **Throws**
 
 - `403` if the user is not logged in
-- `405` if the breakdowns do not sum to 100%
-- `406` if there are an incorrect number of percents
+- `404` if `username` is not a recognized username of any user
 
+#### `PUT /api/adjustfeeds` - Update a user's adjustfeed breakdown
+
+**Body** 
+
+- `politics` _{boolean}_ - whether the user wants to see politics
+- `entertainment` _{boolean}_ - whether the user wants to entertainment
+- `sports` _{boolean}_ - whether the user wants to see sports
+- `news` _{boolean}_ - whether the user wants to see news
+**Returns**
+
+- A success message
+- An object with the update user details (without password)
+
+**Throws**
+
+- `403` if the user is not logged in
+- `404` if `username` is not a recognized username of any user

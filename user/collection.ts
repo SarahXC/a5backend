@@ -100,8 +100,8 @@ class UserCollection {
     //synchronizations TODO: bring back
     const credibility = await CredibilityCollection.deleteOneByUserId(userId); //TODO: bring back
     const adjustFeed = await AdjustfeedCollection.deleteOneByUserId(userId); 
-    // const likes = await LikeCollection.deleteMany(userId);
-    // const freets = await FreetCollection.deleteMany(userId);
+    const likes = await LikeCollection.deleteMany(userId);
+    const freets = await FreetCollection.deleteMany(userId);
     const user = await UserModel.deleteOne({_id: userId});
     return user !== null;
   }
