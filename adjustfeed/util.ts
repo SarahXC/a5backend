@@ -5,11 +5,10 @@ import type {Adjustfeed} from '../adjustfeed/model';
 // Update this if you add a property to the Freet type!
 type AdjustfeedResponse = {
   user: string;
-  liberal: number;
-  conservative: number;
-  entertainment: number;
-  sports: number;
-  news: number;
+  politics: string;
+  entertainment: string;
+  sports: string;
+  news: string;
 };
 
 /**
@@ -19,17 +18,15 @@ type AdjustfeedResponse = {
 const constructAdjustfeedResponse = (adjustfeed: HydratedDocument<Adjustfeed>): AdjustfeedResponse => {
   const adjustfeedCopy: Adjustfeed = {
     ...adjustfeed.toObject({
-      versionKey: false // Cosmetics; prevents returning of __v property
+      versionKey: false 
     })
   };
-  console.log(adjustfeedCopy);
   return {
     user: adjustfeedCopy.user.username,
-    liberal: adjustfeedCopy.liberalPolitics,
-    conservative: adjustfeedCopy.conservativePolitics,
-    entertainment: adjustfeedCopy.entertainment,
-    sports: adjustfeedCopy.sports,
-    news: adjustfeedCopy.news,
+    politics: adjustfeedCopy.politics.toString(),
+    entertainment: adjustfeedCopy.entertainment.toString(),
+    sports: adjustfeedCopy.sports.toString(),
+    news: adjustfeedCopy.news.toString(),
   };
 };
 

@@ -11,11 +11,10 @@ import type {User} from '../user/model';
 export type Adjustfeed = {
   _id: Types.ObjectId; 
   user: User;
-  liberalPolitics: number;
-  conservativePolitics: number;
-  entertainment: number;
-  sports: number;
-  news: number;
+  politics: boolean;
+  entertainment: boolean;
+  sports: boolean;
+  news: boolean;
 };
 
 const AdjustfeedSchema = new Schema<Adjustfeed>({
@@ -24,24 +23,20 @@ const AdjustfeedSchema = new Schema<Adjustfeed>({
     required: true,
     ref: 'User'
   },
-  liberalPolitics: {
-    type: Schema.Types.Number,
-    required: true
-  },
-  conservativePolitics: {
-    type: Schema.Types.Number,
+  politics: {
+    type: Schema.Types.Boolean,
     required: true
   },
   entertainment: {
-    type: Schema.Types.Number,
+    type: Schema.Types.Boolean,
     required: true
   },
   sports: {
-    type: Schema.Types.Number,
+    type: Schema.Types.Boolean,
     required: true
   },
   news: {
-    type: Schema.Types.Number,
+    type: Schema.Types.Boolean,
     required: true
   },
 });

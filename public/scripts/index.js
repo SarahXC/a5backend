@@ -46,6 +46,8 @@ const formsAndHandlers = {
   'view-followers': viewFollowers,
   'view-followings': viewFollowings,
   'view-credibility': viewCredibility,
+  'view-adjustfeed': viewAdjustfeed,
+  'edit-adjustfeed': editAdjustfeed,
 };
 
 // Attach handlers to forms

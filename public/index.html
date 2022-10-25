@@ -9,6 +9,7 @@
   <script src="/scripts/user.js"></script>
   <script src="/scripts/follow.js"></script>
   <script src="/scripts/credibility.js"></script>
+  <script src="/scripts/adjustfeed.js"></script>
   <!-- <script src="/scripts/like.js"></script> -->
   <script src="/scripts/index.js"></script>
 </head>
@@ -174,6 +175,37 @@
             <input id="username" name="username">
           </div>
           <input type="submit" value="View Credibility Score">
+        </form>
+
+        <form id="view-adjustfeed">
+          <h3>View Feed Breakdown</h3>
+          <div>
+            <label for="username">Username:</label>
+            <input id="username" name="username">
+          </div>
+          <input type="submit" value="View Feed Breakdown">
+        </form>
+
+        <form id="edit-adjustfeed">
+          <h3>Edit Feed Breakdown</h3>
+          <div>
+            <label for="politics">Politics: True or False</label>
+            <input id="politics" name="politics"></input>
+          </div>
+          <div>
+            <label for="entertainment">Entertainment: True or False</label>
+            <input id="entertainment" name="entertainment"></input>
+          </div>
+
+          <div>
+            <label for="sports">Sports: True or False</label>
+            <input id="sports" name="sports"></input>
+          </div>
+          <div>
+            <label for="news">News: True or False</label>
+            <input id="news" name="news"></input>
+          </div>
+          <input type="submit" value="Edit Feed Breakdown">
         </form>
 
       </div>

@@ -6,6 +6,7 @@ import CredibilityModel from '../credibility/model';
 import CredibilityCollection from '../credibility/collection';
 import LikeCollection from '../like/collection';
 import FreetCollection from '../freet/collection';
+import AdjustfeedCollection from '../adjustfeed/collection';
 
 /**
  * This file contains a class with functionality to interact with users stored
@@ -30,7 +31,7 @@ class UserCollection {
     await user.save(); // Saves user to MongoDB
     //synchronization: also add a credibility score
     const credibility = await CredibilityCollection.addOneByUserId(user._id); //TODO: bring back
-    // const adjustFeed = await AdjustFeedCollection.addOneByUserId(user._id); 
+    const adjustFeed = await AdjustfeedCollection.addOneByUserId(user._id); 
     return user;
   }
 
@@ -98,7 +99,7 @@ class UserCollection {
   static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
     //synchronizations TODO: bring back
     const credibility = await CredibilityCollection.deleteOneByUserId(userId); //TODO: bring back
-    // const adjustFeed = await AdjustFeedCollection.deleteOneByUserId(userId); 
+    const adjustFeed = await AdjustfeedCollection.deleteOneByUserId(userId); 
     // const likes = await LikeCollection.deleteMany(userId);
     // const freets = await FreetCollection.deleteMany(userId);
     const user = await UserModel.deleteOne({_id: userId});

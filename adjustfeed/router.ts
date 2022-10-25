@@ -1,6 +1,8 @@
 import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import * as userValidator from '../user/middleware';
+import * as adjustfeedValidator from './middleware';
+
 import * as util from './util';
 import UserCollection from '../user/collection';
 import AdjustfeedCollection from './collection';
@@ -20,14 +22,43 @@ router.get(
   '/',
   [
     userValidator.isUserLoggedIn,
+    adjustfeedValidator.isValidUsername,
     //TODO maybe: ensure they have an adjustfeed
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await UserCollection.findOneByUsername(req.body.username as string);
+    const user = await UserCollection.findOneByUsername(req.query.username as string);
     const adjustfeed = await AdjustfeedCollection.findOneByUserId(user._id);
     const response = util.constructAdjustfeedResponse(adjustfeed); 
     res.status(200).json(response); 
   }
 );
 
-export {router as credibilityRouter};
+/**
+ * Modify your feed
+ *
+ * @name PUT /api/adjustfeeds/:percents
+ *
+*/
+ router.put(
+  '/',
+  [
+    userValidator.isUserLoggedIn,
+    //TODO: has adjustfeed default
+  ],
+  async (req: Request, res: Response) => {
+    console.log('inside router');
+    const userId = (req.session.userId as string) ?? '';
+    console.log(req.body.politics);
+    const politics = (req.body.politics as string == 'True') ? true : false;
+    const entertainment = (req.body.entertainment as string == 'True') ? true : false;
+    const sports = (req.body.sports as string == 'True') ? true : false;
+    const news = (req.body.news as string == 'True') ? true : false;
+    const adjustfeed = await AdjustfeedCollection.updateOneByUserId(userId, politics, entertainment, sports, news);
+    res.status(200).json({
+      message: 'Your feed was updated successfully.',
+      freet: util.constructAdjustfeedResponse(adjustfeed)
+    });
+  }
+);
+
+export {router as adjustfeedRouter};

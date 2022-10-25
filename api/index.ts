@@ -13,6 +13,7 @@ import {userRouter} from '../user/router';
 import {freetRouter} from '../freet/router';
 import {followRouter} from '../follow/router';
 import {credibilityRouter} from '../credibility/router';
+import {adjustfeedRouter} from '../adjustfeed/router';
 // import {likeRouter} from '../like/router';
 
 // Load environmental variables
@@ -81,6 +82,7 @@ app.use('/api/users', userRouter);
 app.use('/api/freets', freetRouter);
 app.use('/api/follows', followRouter);
 app.use('/api/credibilities', credibilityRouter);
+app.use('/api/adjustfeeds', adjustfeedRouter);
 // app.use('/api/likes', likeRouter);
 
 // Catch all the other routes and display error message
