@@ -36,7 +36,7 @@ router.get(
 /**
  * Modify your feed
  *
- * @name PUT /api/adjustfeeds/:percents
+ * @name PUT /api/adjustfeeds/
  *
 */
  router.put(
@@ -49,10 +49,10 @@ router.get(
     console.log('inside router');
     const userId = (req.session.userId as string) ?? '';
     console.log(req.body.politics);
-    const politics = (req.body.politics as string == 'True') ? true : false;
-    const entertainment = (req.body.entertainment as string == 'True') ? true : false;
-    const sports = (req.body.sports as string == 'True') ? true : false;
-    const news = (req.body.news as string == 'True') ? true : false;
+    const politics = (req.body.politics.toLowerCase() as string == 'true') ? true : false;
+    const entertainment = (req.body.entertainment.toLowerCase() as string == 'true') ? true : false;
+    const sports = (req.body.sports.toLowerCase() as string == 'true') ? true : false;
+    const news = (req.body.news.toLowerCase() as string == 'true') ? true : false;
     const adjustfeed = await AdjustfeedCollection.updateOneByUserId(userId, politics, entertainment, sports, news);
     res.status(200).json({
       message: 'Your feed was updated successfully.',

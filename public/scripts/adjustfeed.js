@@ -12,7 +12,7 @@ function viewAdjustfeed(fields) {
   }
 
 function editAdjustfeed(fields) {
-  fetch(`/api/adjustfeeds/${fields.percents}`, {method: 'PUT', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+  fetch(`/api/adjustfeeds/`, {method: 'PUT', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
     .then(showResponse)
     .catch(showResponse);
   }

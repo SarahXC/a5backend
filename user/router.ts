@@ -35,7 +35,7 @@ router.post(
     );
     req.session.userId = user._id.toString();
     res.status(201).json({
-      message: 'You have logged in successfully',
+      message: 'You have logged in successfully!',
       user: util.constructUserResponse(user)
     });
   }
