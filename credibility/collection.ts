@@ -47,8 +47,8 @@ class CredibilityCollection {
     const numLikes = (await LikeCollection.findAllLikesRecieved(userId)).length;
     const numFollowers = (await FollowCollection.findAllFollowersByID(userId)).length;
 
-    credibility.score =  numLikes + 2* numFollowers; //TODO: can add comments
-    credibility.canPost = credibility.score > 10 ? true : false;
+    credibility.score =  numLikes + 2* numFollowers;
+    credibility.canPost = credibility.score >4 ? true : false;
     await credibility.save();
     return credibility.populate('user'); //populate for things with Schema.Type and objects 
   }

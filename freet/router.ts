@@ -4,6 +4,7 @@ import FreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import TagCollection from '../tag/collection';
 
 const router = express.Router();
 
@@ -68,7 +69,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const freet = await FreetCollection.addOne(userId, req.body.content);
+    const freet = await FreetCollection.addOne(userId, req.body.content, req.body.tag);
 
     res.status(201).json({
       message: 'Your freet was created successfully.',
@@ -96,6 +97,7 @@ router.delete(
   ],
   async (req: Request, res: Response) => {
     await FreetCollection.deleteOne(req.params.freetId);
+    await TagCollection.deleteOne(req.params.freetId);
     res.status(200).json({
       message: 'Your freet was deleted successfully.'
     });
