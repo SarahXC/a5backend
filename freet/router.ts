@@ -4,7 +4,7 @@ import FreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
-import TagCollection from '../tag/collection';
+// import TagCollection from '../tag/collection';
 
 const router = express.Router();
 
@@ -98,7 +98,7 @@ router.delete(
   ],
   async (req: Request, res: Response) => {
     await FreetCollection.deleteOne(req.params.freetId);
-    await TagCollection.deleteOne(req.params.freetId);
+    // await TagCollection.deleteOne(req.params.freetId);
     res.status(200).json({
       message: 'Your freet was deleted successfully.'
     });

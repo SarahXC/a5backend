@@ -2,7 +2,7 @@ import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import LikeCollection from '../like/collection';
 import UserCollection from '../user/collection';
-import FreetCollection from 'freet/collection';
+import FreetCollection from '../freet/collection';
 import * as userValidator from '../user/middleware';
 import * as likeValidator from './middleware';
 import * as util from './util';
