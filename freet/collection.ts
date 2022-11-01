@@ -31,12 +31,13 @@ class FreetCollection {
       dateCreated: date,
       content,
       dateModified: date,
+      category: category
       // numLikes: 0,
     });
     await freet.save(); // Saves freet to MongoDB
 
     //add the tag
-    const tag = await TagCollection.addOne(freet._id, category);
+    // const tag = await TagCollection.addOne(freet._id, category);
 
     return freet.populate('authorId');
   }

@@ -14,6 +14,7 @@ export type Freet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  category: string;
   // numLikes: number; 
 };
 
@@ -23,6 +24,7 @@ export type PopulatedFreet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  category: string;
   // numLikes: number; 
 };
 
@@ -52,10 +54,10 @@ const FreetSchema = new Schema<Freet>({
     type: Schema.Types.Date,
     required: true
   },
-  // numLikes: {
-  //   type: Number,
-  //   required: true
-  // }
+  category: {
+    type: Schema.Types.String,
+    required: true
+  }
 });
 
 const FreetModel = model<Freet>('Freet', FreetSchema);

@@ -9,6 +9,7 @@ type FreetResponse = {
   dateCreated: string;
   content: string;
   dateModified: string;
+  category: string;
   // numLikes: number; 
 };
 
@@ -41,6 +42,7 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
     author: username,
     dateCreated: formatDate(freet.dateCreated),
     dateModified: formatDate(freet.dateModified),
+    category: freetCopy.category,
     // numLikes: freet.numLikes
   };
 };

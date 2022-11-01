@@ -11,7 +11,7 @@ import CredibilityCollection from '../credibility/collection';
   const currentUser = await UserCollection.findOneByUserId(req.session.userId);
   const credibility = await CredibilityCollection.findOneByUserId(req.session.userId);
   if (!credibility.canPost) { //if not enough credibility
-    res.status(404).json({
+    res.status(405).json({
       error: {
         freetNotFound: `You do not have enough credibility points to post.`
       }
@@ -21,6 +21,25 @@ import CredibilityCollection from '../credibility/collection';
 
   next();
 };
+
+/**
+ * Checks that the tag is correct
+ */
+ const isValidTag = async (req: Request, res: Response, next: NextFunction) => {
+  const categories = ['politics', 'sports', 'entertainment', 'news'];
+
+  if(categories.indexOf(req.body.category) < 0) {
+    res.status(404).json({
+      error: {
+        userNotFound: `${req.body.category} is not a valid tag. The valid tags are politics, sports, entertainment, and news.`
+      }
+    });
+    return;
+  } 
+
+  next();
+};
+
 
 /**
  * Checks if a freet with freetId is req.params exists
@@ -81,6 +100,7 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
 
 export {
   isEnoughCredibility,
+  isValidTag,
   isValidFreetContent,
   isFreetExists,
   isValidFreetModifier
