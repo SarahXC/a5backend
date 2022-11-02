@@ -5,10 +5,11 @@ import type {Adjustfeed} from '../adjustfeed/model';
 // Update this if you add a property to the Freet type!
 type AdjustfeedResponse = {
   user: string;
-  politics: string;
-  entertainment: string;
-  sports: string;
-  news: string;
+  categories: Array<string>;
+  // politics: string;
+  // entertainment: string;
+  // sports: string;
+  // news: string;
 };
 
 /**
@@ -21,12 +22,15 @@ const constructAdjustfeedResponse = (adjustfeed: HydratedDocument<Adjustfeed>): 
       versionKey: false 
     })
   };
+  let categories = new Array<string>();
+  if (adjustfeedCopy.politics){categories.push('politics')};
+  if (adjustfeedCopy.entertainment){categories.push('entertainment')};
+  if (adjustfeedCopy.sports){categories.push('sports')};
+  if (adjustfeedCopy.news){categories.push('news')};
+
   return {
     user: adjustfeedCopy.user.username,
-    politics: adjustfeedCopy.politics.toString(),
-    entertainment: adjustfeedCopy.entertainment.toString(),
-    sports: adjustfeedCopy.sports.toString(),
-    news: adjustfeedCopy.news.toString(),
+    categories: categories,
   };
 };
 
