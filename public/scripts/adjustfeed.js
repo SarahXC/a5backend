@@ -6,7 +6,7 @@
  */
 
 function viewAdjustfeed(fields) {
-  fetch(`/api/adjustfeeds?username=${fields.username}`)
+  fetch('/api/adjustfeeds/breakdown')
     .then(showResponse)
     .catch(showResponse);
   }

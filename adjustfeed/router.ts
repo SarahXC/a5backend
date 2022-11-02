@@ -19,14 +19,13 @@ const router = express.Router();
  *                      order by date modified
  */
 router.get(
-  '/',
+  '/breakdown',
   [
     userValidator.isUserLoggedIn,
-    adjustfeedValidator.isValidUsername,
-    //TODO maybe: ensure they have an adjustfeed
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await UserCollection.findOneByUsername(req.query.username as string);
+    const userId = (req.session.userId as string) ?? '';
+    const user = await UserCollection.findOneByUserId(userId);
     const adjustfeed = await AdjustfeedCollection.findOneByUserId(user._id);
     const response = util.constructAdjustfeedResponse(adjustfeed); 
     res.status(200).json(response); 
@@ -49,7 +48,7 @@ router.get(
     console.log('inside router');
     const userId = (req.session.userId as string) ?? '';
     console.log(req.body.politics);
-    const politics = (req.body.politics.toLowerCase() as string == 'true') ? true : false;
+    const politics = (req.body.politics.toLowerCase() as string == 'rue') ? true : false;
     const entertainment = (req.body.entertainment.toLowerCase() as string == 'true') ? true : false;
     const sports = (req.body.sports.toLowerCase() as string == 'true') ? true : false;
     const news = (req.body.news.toLowerCase() as string == 'true') ? true : false;
